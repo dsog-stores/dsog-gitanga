@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ESH - Enterprise Sales Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --dark-blue: #0a192f;
+      --medium-blue: #172a45;
+      --light-accent: #64ffda;
+      --navy-accent: #3a7bd5;
+      --text-primary: #e6f1ff;
+      --text-secondary: #a8b2d1;
+      --nav-hover: #2a5b9c;
+      --gradient-blue: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--dark-blue);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Layout structure */
+    .app-container {
+      display: flex;
+      flex: 1;
+      height: 100%;
+      min-height: 0;
+    }
+
+    /* Side navigation */
+    .sidenav {
+      width: 280px;
+      background: var(--medium-blue);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .nav-logo-placeholder {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 20px 0;
+    }
+
+    .logo-img {
+      width: 60px;
+      height: 60px;
+      background: rgba(100, 255, 218, 0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--light-accent);
+      font-size: 1.8rem;
+    }
+
+    .outlet-code {
+      padding: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 20px;
+      color: var(--light-accent);
+    }
+
+    .nav-spacer {
+      height: 30px;
+    }
+
+    .nav-links {
+      list-style: none;
+      padding: 0 15px;
+      margin: 0;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-section {
+      margin-bottom: 15px;
+    }
+
+    .nav-section-title {
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: var(--light-accent);
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .nav-section-title:hover {
+      background: rgba(100, 255, 218, 0.1);
+    }
+
+    .nav-section-title i {
+      margin-right: 15px;
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .nav-submenu {
+      list-style: none;
+      padding: 0;
+      margin: 5px 0 15px 0;
+      display: none;
+    }
+
+    .nav-section.active .nav-submenu {
+      display: block;
+    }
+
+    .nav-link {
+      padding: 12px 20px 12px 50px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      position: relative;
+      user-select: none;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: rgba(100, 255, 218, 0.05);
+    }
+
+    .nav-link.active {
+      color: var(--light-accent);
+      font-weight: 500;
+      background: rgba(100, 255, 218, 0.1);
+    }
+
+    .nav-link.active::before {
+      content: "";
+      position: absolute;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background: var(--light-accent);
+      border-radius: 50%;
+    }
+
+    /* Main content area */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--dark-blue);
+      min-height: 0;
+      position: relative;
+    }
+
+    /* Header styles */
+    header {
+      background: var(--medium-blue);
+      color: var(--text-primary);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      flex-shrink: 0;
+      z-index: 5;
+    }
+
+    .store-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .store-name {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--light-accent);
+      margin: 0;
+    }
+
+    .store-code {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 5px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .dashboard-nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dashboard-nav a {
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .dashboard-nav a:hover {
+      color: var(--text-primary);
+      background: rgba(100, 255, 218, 0.05);
+    }
+
+    .dashboard-nav a.active {
+      color: var(--light-accent);
+      background: rgba(100, 255, 218, 0.1);
+    }
+
+    .datetime {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    #time {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    #date {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .menu-button {
+      background: rgba(100, 255, 218, 0.1);
+      color: var(--light-accent);
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid rgba(100, 255, 218, 0.2);
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .menu-button:hover {
+      background: rgba(100, 255, 218, 0.2);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: calc(100% + 5px);
+      right: 0;
+      min-width: 220px;
+      background: var(--medium-blue);
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-size: 14px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .dropdown-content a:hover {
+      color: var(--text-primary);
+      background: rgba(100, 255, 218, 0.05);
+    }
+
+    .dropdown-content a:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown.open .dropdown-content {
+      display: block;
+    }
+
+    /* Content area */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow: auto;
+    }
+
+    .iframe-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      background-color: #fff;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--medium-blue);
+      color: var(--text-secondary);
+      text-align: center;
+      font-size: 13px;
+      padding: 12px 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      flex-shrink: 0;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .sidenav {
+        width: 80px;
+      }
+      
+      .outlet-code, .nav-section-title span, .nav-link span {
+        display: none;
+      }
+      
+      .nav-section-title {
+        justify-content: center;
+        padding: 16px 0;
+      }
+      
+      .nav-section-title i {
+        margin-right: 0;
+        font-size: 1.3rem;
+      }
+
+      .nav-link {
+        padding: 16px 0;
+        justify-content: center;
+      }
+
+      .nav-link.active::before {
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        flex-direction: column;
+      }
+      
+      .sidenav {
+        width: 100%;
+        flex-direction: row;
+        height: auto;
+      }
+      
+      .nav-logo-placeholder, .outlet-code, .nav-spacer {
+        display: none;
+      }
+      
+      .nav-links {
+        display: flex;
+        overflow-x: auto;
+        padding: 0 10px;
+      }
+      
+      .nav-section {
+        margin-bottom: 0;
+        margin-right: 5px;
+        min-width: 80px;
+      }
+
+      .nav-section-title {
+        padding: 15px 10px;
+        border-radius: 0;
+        white-space: nowrap;
+      }
+
+      .nav-submenu {
+        position: absolute;
+        background: var(--medium-blue);
+        z-index: 100;
+        min-width: 200px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      }
+
+      .nav-link {
+        padding: 12px 15px;
+        white-space: nowrap;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .dashboard-nav {
+        flex-wrap: wrap;
+      }
+
+      .datetime {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .dropdown {
+        width: 100%;
+      }
+
+      .dropdown-content {
+        left: 0;
+        right: auto;
+        width: 100%;
+      }
+
+      .menu-button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Side Navigation -->
+    <nav class="sidenav">
+      <div class="nav-logo-placeholder">
+        <div class="logo-img"><i class="fas fa-cash-register"></i></div>
+      </div>
+      
+      <div class="outlet-code">NBO-DSOG001</div>
+      
+      <div class="nav-spacer"></div>
+      
+      <ul class="nav-links">
+        <!-- Sales Operations Section -->
+        <li class="nav-section active">
+          <div class="nav-section-title">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Sales Operations</span>
+          </div>
+          <ul class="nav-submenu">
+            <li>
+              <a href="#" class="nav-link active" data-section="point-of-sale">
+                <span>Point of Sale</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="transactions">
+                <span>Transaction History</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="returns">
+                <span>Returns & Refunds</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        
+        <!-- Customer Management Section -->
+        <li class="nav-section">
+          <div class="nav-section-title">
+            <i class="fas fa-users"></i>
+            <span>Customer Management</span>
+          </div>
+          <ul class="nav-submenu">
+            <li>
+              <a href="#" class="nav-link" data-section="customer-database">
+                <span>Customer Database</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="invoicing">
+                <span>Invoicing</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="loyalty">
+                <span>Loyalty Programs</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        
+        <!-- Product Information Section -->
+        <li class="nav-section">
+          <div class="nav-section-title">
+            <i class="fas fa-box-open"></i>
+            <span>Product Information</span>
+          </div>
+          <ul class="nav-submenu">
+            <li>
+              <a href="#" class="nav-link" data-section="product-catalog">
+                <span>Product Catalog</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="pricing">
+                <span>Pricing Management</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="specials">
+                <span>Specials & Promotions</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        
+        <!-- Inventory Section -->
+        <li class="nav-section">
+          <div class="nav-section-title">
+            <i class="fas fa-warehouse"></i>
+            <span>Inventory</span>
+          </div>
+          <ul class="nav-submenu">
+            <li>
+              <a href="#" class="nav-link" data-section="stock-levels">
+                <span>Stock Levels</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="replenishment">
+                <span>Replenishment</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="inventory-reports">
+                <span>Inventory Reports</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        
+        <!-- Sales Analytics Section -->
+        <li class="nav-section">
+          <div class="nav-section-title">
+            <i class="fas fa-chart-bar"></i>
+            <span>Sales Analytics</span>
+          </div>
+          <ul class="nav-submenu">
+            <li>
+              <a href="#" class="nav-link" data-section="sales-reports">
+                <span>Sales Reports</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="performance">
+                <span>Performance Metrics</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="trends">
+                <span>Sales Trends</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <div class="store-info">
+          <h1 class="store-name">StyleHaven - Fashion & Home</h1>
+          <div class="store-code">NBO-DSOG001 • Week 24 Sales</div>
+        </div>
+
+        <div class="header-actions">
+          <div class="dashboard-nav">
+            <a href="index.html">Home</a>
+            <a href="#" class="active">Workspace</a>
+            <a href="marketplace.html">Marketplace</a>
+          </div>
+
+          <div class="datetime">
+            <div id="time">10:45 AM</div>
+            <div id="date">Friday, June 10, 2023</div>
+          </div>
+
+          <div class="dropdown" id="dropdown">
+            <button class="menu-button" id="menuToggle">
+              <i class="fas fa-tools"></i>
+              <span>Tools</span>
+            </button>
+            <div class="dropdown-content" id="menuContent">
+              <a href="#" data-link="new-sale">New Sale</a>
+              <a href="#" data-link="quick-invoice">Quick Invoice</a>
+              <a href="#" data-link="customer-lookup">Customer Lookup</a>
+              <a href="#" data-link="apply-discount">Apply Discount</a>
+              <a href="#" data-link="hold-order">Hold Order</a> 
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="iframe-container">
+          <iframe id="iframe" loading="lazy" title="ESH Workspace Content"></iframe>
+        </div>
+      </main>
+
+      <footer>Powered by ESH - Enterprise Sales Hub &copy; 2025</footer>
+    </div>
+  </div>
+
+  <script>
+    // Data for each section with sheet URLs for each tool
+    const moduleData = {
+      // Sales Operations
+      "point-of-sale": {
+        title: "Point of Sale",
+        tools: [
+          { 
+            name: "New Sale", 
+            link: "new-sale",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1F7tL4EAJeUsNgW_Q4ns8a69iK6GfIrvCafxGVuT7qog/edit?usp=sharing" 
+          },
+          { 
+            name: "Quick Invoice", 
+            link: "quick-invoice",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1R1LH8KIIJmSuEzRW_dfI3H1Slu9w9vW4tY1XJ2Krcs4/edit?usp=sharing" 
+          },
+          { 
+            name: "Hold Order", 
+            link: "hold-order",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/11vK-1ogIl4q-rg053Ql7rHz3CD1vfXmgmum9xP4CUXo/edit" 
+          }
+        ]
+      },
+      "transactions": {
+        title: "Transaction History",
+        tools: [
+          { 
+            name: "Today's Transactions", 
+            link: "todays-transactions",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1qDnaVeBiWxuF0m1Yk-03REwM8bqwXMlOnJpuqdlTqZ8/edit" 
+          },
+          { 
+            name: "Void Transactions", 
+            link: "void-transactions",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1KVnZUXasm0HqXrskp7cdTrFYiGzrZs07qSzbnV9DNIs/edit" 
+          }
+        ]
+      },
+      "returns": {
+        title: "Returns & Refunds",
+        tools: [
+          { 
+            name: "Process Return", 
+            link: "process-return",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1hoo8598qY1UQJwf3qSo6EEC0eZel44WGzM2SuO8A6qA/edit" 
+          },
+          { 
+            name: "Refund History", 
+            link: "refund-history",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1PxLHWjimhlC-s8pQ0-SWCE2Jkg3rxRmL3lubyfE-oNo/edit" 
+          },
+          { 
+            name: "Return Reasons", 
+            link: "return-reasons",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1gGD8EF8ob4U_rV8TDGlvDuMdnT2ErdgjR476CqEA8Ws/edit" 
+          }
+        ]
+      },
+      
+      // Customer Management
+      "customer-database": {
+        title: "Customer Database",
+        tools: [
+          { 
+            name: "Customer Directory", 
+            link: "customer-directory",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/11iKOnO-MScZMqww5eAg7v5uEQWQjZ8dnCsPd9fKVLs4/edit" 
+          },
+          { 
+            name: "Customer Groups", 
+            link: "customer-groups",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1M1pHs_X8yg72RMmW6LHyz3Zb8qbJN5pteIaJg977Xbk/edit" 
+          }
+        ]
+      },
+      "invoicing": {
+        title: "Invoicing",
+        tools: [
+          { 
+            name: "Create Invoice", 
+            link: "create-invoice",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1INVOICE_CREATE_SHEET_ID/edit" 
+          },
+          { 
+            name: "Payment Tracking", 
+            link: "payment-tracking",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1Fhpzj-Dm5YFOIRUYSHVNWyImj0uMUaGdeB3dFIDAGMM/edit" 
+          }
+        ]
+      },
+      "loyalty": {
+        title: "Loyalty Programs",
+        tools: [
+          { 
+            name: "Loyalty Members", 
+            link: "loyalty-members",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1uZwl7-8Zi4YfT-sdiExCcrDUoJ_FQZmhQiX7j3fKbI0/edit" 
+          },
+          { 
+            name: "Points Redemption", 
+            link: "points-redemption",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1QEdFp_wblY_eaH00RwOdcY-MUqg_On6R2bnIjPPwxaQ/edit" 
+          },
+          { 
+            name: "Rewards Catalog", 
+            link: "rewards-catalog",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/148kODEe388XlQNU_-dNZcs_ensVYoGDmYsl-ApnCLx8/edit" 
+          }
+        ]
+      },
+      
+      // Product Information
+      "product-catalog": {
+        title: "Product Catalog",
+        tools: [
+          { 
+            name: "Product Details", 
+            link: "product-details",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1TaYcki7lJ1kC4q8mfNly_d_e1a7PcYV8oHotLtom5R4/edit" 
+          },
+        ]
+      },
+      "pricing": {
+        title: "Pricing Management",
+        tools: [
+          { 
+            name: "Price Lists", 
+            link: "price-lists",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1fSQO1ec_15eCwCNIH3BWVygdmL3nPBycExTTE5isjdM/edit" 
+          },
+          { 
+            name: "Price Updates", 
+            link: "price-updates",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/177srRZ_v9oaomBg7Osn3ut9gdAHB_zFXlhgvcmRmhkk/edit" 
+          },
+        ]
+      },
+      "specials": {
+        title: "Specials & Promotions",
+        tools: [
+          { 
+            name: "Current Promotions", 
+            link: "current-promotions",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1cdPeOG6LjKV3sgMDmzYcowclqLcKBjx_7iVM0QeH3ik/edit" 
+          },
+          { 
+            name: "Create Promotion", 
+            link: "create-promotion",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1NxmD23P2Y4nwEWK7EdrFXkXayy_LA1b0jS8XmCOolRU/edit" 
+          },
+          { 
+            name: "Promotion Results", 
+            link: "promotion-results",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1_dPOvSQo5ue7SxvuVz3BotcJaIYWQL0k9Aod3O6AruE/edit" 
+          }
+        ]
+      },
+      
+      // Inventory
+      "stock-levels": {
+        title: "Stock Levels",
+        tools: [
+          { 
+            name: "Current Inventory", 
+            link: "current-inventory",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1iskSt2krpmI5smrA59_WSugpYT44S28QaA7NLx_5seA/edit" 
+          },
+          { 
+            name: "Low Stock Alerts", 
+            link: "low-stock",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/12sbaXzyvK3137rz2Tx5I4TSqhzLHxcKBlvKKutQ6kPc/edit" 
+          },
+          { 
+            name: "Inventory Valuation", 
+            link: "inventory-valuation",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1BzyxkoCa6RMtNvs2-AToIVKImdMvAAYWfqtWNGvFpS0/edit" 
+          }
+        ]
+      },
+      "replenishment": {
+        title: "Replenishment",
+        tools: [
+          { 
+            name: "Purchase Orders", 
+            link: "purchase-orders",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1OyH4-vZkIgNKWhQQUBVoNat6LVSoOGutbR3O73Kzo_Q//edit" 
+          },
+          { 
+            name: "Vendor Management", 
+            link: "vendor-management",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1U4c9DVC6IdDvTgcTJSH28vAlRXTnEZY6fWrdv0DlMJI/edit" 
+          },
+          { 
+            name: "Receiving", 
+            link: "receiving",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1OElvvz5BRRjKMIiYW1YtA7fQAHT-jDZVUjfvbL0qGg0/edit" 
+          }
+        ]
+      },
+      "inventory-reports": {
+        title: "Inventory Reports",
+        tools: [
+          { 
+            name: "Inventory Movement", 
+            link: "inventory-movement",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1yt6j4xYVsfnlYBs7x-MTxdW6QUiL4a15ZmBqo6bZasc/edit" 
+          },
+          { 
+            name: "Stock Adjustments", 
+            link: "stock-adjustments",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1s8rVN0H6LvGLRrlyuTnnmLCRC_-TwVaBLxkg9AmVlRQ/edit" 
+          },
+          { 
+            name: "Inventory Accuracy", 
+            link: "inventory-accuracy",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1KqLNKcdvlIysFp9UOZo3WOQFv2gxs0i2E_T_jfE73oc/edit" 
+          }
+        ]
+      },
+      
+      // Sales Analytics
+      "sales-reports": {
+        title: "Sales Reports",
+        tools: [
+          { 
+            name: "Daily Sales", 
+            link: "daily-sales",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1Grhedm8TOsl5YKUh-2VByuv2UAaBEJNn20URNrjYDyo/edit?usp=sharing" 
+          },
+          { 
+            name: "Product Performance", 
+            link: "product-performance",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1VPpOrg3dRF-991iyWTHYe8PG1SX677I3IJaH2j7oLnI/edit" 
+          },
+          { 
+            name: "Sales by Category", 
+            link: "sales-by-category",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1YuQhNl-G9YCFc7S24RdPltCT0Z2CmicAjxvFNilaGOE/edit" 
+          }
+        ]
+      },
+      "performance": {
+        title: "Performance Metrics",
+        tools: [
+          { 
+            name: "Salesperson Performance", 
+            link: "salesperson-performance",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/18UEJxzUSx1MAjfLSHPpE0Z5ot9z-Dkr-NNaeiVwm5TM/edit" 
+          },
+          { 
+            name: "Conversion Rates", 
+            link: "conversion-rates",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1dXdtHwgdaV7DDDtJQCuYe0MlOkEMKc1fxQbqxfsFGw4/edit" 
+          },
+          { 
+            name: "Average Transaction", 
+            link: "average-transaction",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1Q9E_I-o3XloXCW5zuLZLoGzgDQos2MnhRFZZcnWIMIk/edit" 
+          }
+        ]
+      },
+      "trends": {
+        title: "Sales Trends",
+        tools: [
+          { 
+            name: "Historical Comparison", 
+            link: "historical-comparison",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1txg8o17LPzagzhd3h-rHKdRgVPqXNacTJ_XkbZ_wpuY/edit" 
+          },
+          { 
+            name: "Seasonal Trends", 
+            link: "seasonal-trends",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1wSTZKGsks788uqo2CXF0bJRiyb-kTGCbHeXrJMhvqtE/edit" 
+          },
+          { 
+            name: "Forecasting", 
+            link: "forecasting",
+            sheetUrl: "https://docs.google.com/spreadsheets/d/1Xus5PJ8sRiaCuJrdbOefhMsXgbm4SC8yALq_xabn9Eo/edit" 
+          }
+        ]
+      }
+    };
+
+    // DOM elements
+    const iframe = document.getElementById("iframe");
+    const dropdown = document.getElementById("dropdown");
+    const menuToggle = document.getElementById("menuToggle");
+    const menuContent = document.getElementById("menuContent");
+    const timeElement = document.getElementById("time");
+    const dateElement = document.getElementById("date");
+    const navSections = document.querySelectorAll(".nav-section");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    // Initialize the application
+    function initApp() {
+      setupEventListeners();
+      loadInitialSection();
+      updateClock();
+      setInterval(updateClock, 60000); // Update time every minute
+    }
+
+    // Set up all event listeners
+    function setupEventListeners() {
+      // Navigation section clicks
+      document.querySelectorAll(".nav-section-title").forEach(title => {
+        title.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const section = this.parentElement;
+          navSections.forEach(s => {
+            if (s !== section) s.classList.remove("active");
+          });
+          section.classList.toggle("active");
+        });
+      });
+
+      // Nav link clicks
+      navLinks.forEach(link => {
+        link.addEventListener("click", function(e) {
+          e.preventDefault();
+          handleNavLinkClick(this);
+        });
+      });
+
+      // Tool clicks
+      menuContent.addEventListener("click", function(e) {
+        if (e.target.tagName === 'A') {
+          e.preventDefault();
+          handleToolClick(e.target);
+        }
+      });
+
+      // Toggle dropdown
+      menuToggle.addEventListener("click", function(e) {
+        e.stopPropagation();
+        dropdown.classList.toggle("open");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function() {
+        dropdown.classList.remove("open");
+      });
+    }
+
+    // Handle navigation link clicks
+    function handleNavLinkClick(link) {
+      // Update active states
+      navLinks.forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+      
+      // Update content
+      const section = link.dataset.section;
+      const data = moduleData[section];
+      
+      if (!data) {
+        console.error("No data found for section:", section);
+        return;
+      }
+      
+      // Update tools dropdown
+      updateToolsMenu(data.tools);
+      
+      // Load the first tool's content by default
+      if (data.tools.length > 0) {
+        loadToolContent(data.tools[0].sheetUrl);
+      }
+    }
+
+    // Update the tools dropdown menu
+    function updateToolsMenu(tools) {
+      menuContent.innerHTML = '';
+      tools.forEach(tool => {
+        const link = document.createElement('a');
+        link.href = '#';
+        link.textContent = tool.name;
+        link.dataset.link = tool.link;
+        link.dataset.sheetUrl = tool.sheetUrl;
+        menuContent.appendChild(link);
+      });
+    }
+
+    // Handle tool selection
+    function handleToolClick(toolElement) {
+      dropdown.classList.remove("open");
+      const sheetUrl = toolElement.dataset.sheetUrl;
+      loadToolContent(sheetUrl);
+    }
+
+    // Load content for a tool
+    function loadToolContent(sheetUrl) {
+      if (sheetUrl && sheetUrl.includes('docs.google.com')) {
+        const sheetId = extractSheetId(sheetUrl);
+        if (sheetId) {
+          // Load the sheet with full toolbar
+          iframe.src = `https://docs.google.com/spreadsheets/d/${sheetId}/edit?usp=sharing`;
+        } else {
+          showPlaceholderContent("Invalid Google Sheet URL format");
+        }
+      } else {
+        showPlaceholderContent("No Google Sheet configured for this tool");
+      }
+    }
+
+    // Show placeholder content
+    function showPlaceholderContent(message) {
+      iframe.srcdoc = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100%;
+              font-family: Arial, sans-serif;
+              color: #666;
+              background: #f9f9f9;
+            }
+            .content {
+              text-align: center;
+              padding: 20px;
+              max-width: 500px;
+            }
+            i {
+              font-size: 3rem;
+              color: #ddd;
+              margin-bottom: 20px;
+            }
+            h2 {
+              color: #444;
+              margin: 0 0 15px 0;
+            }
+            p {
+              margin: 5px 0;
+              line-height: 1.5;
+            }
+          </style>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        </head>
+        <body>
+          <div class="content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h2>Content Not Available</h2>
+            <p>${message}</p>
+            ${message.includes('configured') ? '<p>Please configure a valid Google Sheet URL in the moduleData object.</p>' : ''}
+          </div>
+        </body>
+        </html>
+      `;
+    }
+
+    // Update clock
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      
+      timeElement.textContent = `${hours}:${minutes} ${ampm}`;
+      
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      dateElement.textContent = now.toLocaleDateString('en-US', options);
+    }
+
+    // Helper function to extract sheet ID from URL
+    function extractSheetId(url) {
+      try {
+        const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+        return match ? match[1] : null;
+      } catch (e) {
+        console.error("Error extracting sheet ID:", e);
+        return null;
+      }
+    }
+
+    // Load initial section
+    function loadInitialSection() {
+      const activeLink = document.querySelector('.nav-link.active');
+      if (activeLink) {
+        handleNavLinkClick(activeLink);
+      } else if (navLinks.length > 0) {
+        // Activate first link if none is active
+        navLinks[0].classList.add("active");
+        handleNavLinkClick(navLinks[0]);
+      }
+    }
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+
+</body>
+</html>
