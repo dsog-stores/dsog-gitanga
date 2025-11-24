@@ -1196,6 +1196,8 @@
                 const data = snapshot.val();
                 if (data) {
                     updateEntireDashboard(data);
+                    // Also update admin button states when data changes
+                    updateAddButtonStates(data);
                 } else {
                     // Initialize with default data if no data exists
                     database.ref('dashboard').set(defaultData);
@@ -1528,6 +1530,7 @@
                 database.ref('dashboard').set(data)
                     .then(() => {
                         showNotification('✅ New product added!', 'success');
+                        // Update button states after successful addition
                         updateAddButtonStates(data);
                     })
                     .catch((error) => {
@@ -1546,7 +1549,8 @@
                         database.ref('dashboard').set(data)
                             .then(() => {
                                 showNotification('✅ Product removed!', 'success');
-                                updateAddButtonStates(data);
+                                // Reload the current data to get updated counts
+                                loadCurrentData();
                             })
                             .catch((error) => {
                                 showNotification('❌ Error removing product: ' + error.message, 'error');
@@ -1561,7 +1565,14 @@
             const bestSellingBtn = document.getElementById('addBestSellingBtn');
             const newArrivalsBtn = document.getElementById('addNewArrivalBtn');
             
-            if (data.bestSellingProducts.length >= 4) {
+            if (!data) return;
+            
+            const bestSellingCount = data.bestSellingProducts ? data.bestSellingProducts.length : 0;
+            const newArrivalsCount = data.newArrivals ? data.newArrivals.length : 0;
+            
+            console.log(`Updating buttons - Best Selling: ${bestSellingCount}/4, New Arrivals: ${newArrivalsCount}/4`);
+            
+            if (bestSellingCount >= 4) {
                 bestSellingBtn.disabled = true;
                 bestSellingBtn.textContent = "Max 4 Products";
             } else {
@@ -1569,7 +1580,7 @@
                 bestSellingBtn.textContent = "+ Add Product";
             }
             
-            if (data.newArrivals.length >= 4) {
+            if (newArrivalsCount >= 4) {
                 newArrivalsBtn.disabled = true;
                 newArrivalsBtn.textContent = "Max 4 Products";
             } else {
@@ -1661,6 +1672,6 @@
                 notification.remove();
             }, 3000);
         }
-    </script>
+            </script>
 </body>
 </html>
