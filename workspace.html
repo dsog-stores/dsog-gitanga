@@ -58,13 +58,9 @@
     /* Layout structure */
     .app-container {
       display: flex;
-      flex: 1;
-      height: 100%;
+      height: 100vh;
       min-height: 0;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px;
-      box-sizing: border-box;
+      width: 100%;
     }
 
     /* Side navigation */
@@ -77,8 +73,6 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       flex-shrink: 0;
       z-index: 10;
-      border-radius: 12px;
-      margin-right: 20px;
       overflow: hidden;
     }
 
@@ -209,9 +203,7 @@
       background-color: var(--medium-blue);
       min-height: 0;
       position: relative;
-      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     /* Header styles */
@@ -394,13 +386,8 @@
 
     /* Responsive styles */
     @media (max-width: 1200px) {
-      .app-container {
-        padding: 15px;
-      }
-      
       .sidenav {
         width: 240px;
-        margin-right: 15px;
       }
     }
 
@@ -445,15 +432,13 @@
     @media (max-width: 768px) {
       .app-container {
         flex-direction: column;
-        padding: 10px;
       }
       
       .sidenav {
         width: 100%;
         flex-direction: row;
         height: auto;
-        margin-right: 0;
-        margin-bottom: 15px;
+        margin-bottom: 0;
       }
       
       .nav-logo-placeholder, .outlet-code, .nav-spacer {
@@ -552,18 +537,6 @@
     }
     
     @media (max-width: 480px) {
-      .app-container {
-        padding: 8px;
-      }
-      
-      .sidenav {
-        border-radius: 8px;
-      }
-      
-      .main-content {
-        border-radius: 8px;
-      }
-      
       header {
         padding: 12px;
       }
