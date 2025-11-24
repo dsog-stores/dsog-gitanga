@@ -3,30 +3,56 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ESH - Enterprise Sales Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <title>DSOG STORES - Workspace</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root {
       --dark-blue: #0a192f;
       --medium-blue: #172a45;
-      --light-accent: #64ffda;
-      --navy-accent: #3a7bd5;
-      --text-primary: #e6f1ff;
-      --text-secondary: #a8b2d1;
-      --nav-hover: #2a5b9c;
-      --gradient-blue: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
+      --light-pink: #ff6b8b;
+      --accent-gold: #e6c78a;
+      --soft-teal: #81c8be;
+      --text-primary: #f0e6ef;
+      --text-secondary: #b8b8d1;
     }
 
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: var(--dark-blue);
       color: var(--text-primary);
-      display: flex;
-      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--dark-blue);
+      z-index: -2;
+    }
+    
+    .background-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle at 25% 25%, rgba(255, 107, 139, 0.1) 0%, transparent 50%);
+      background-size: 400% 400%;
+      z-index: -1;
+      animation: gradientMove 30s ease infinite;
+    }
+    
+    @keyframes gradientMove {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
     }
 
     /* Layout structure */
@@ -35,6 +61,10 @@
       flex: 1;
       height: 100%;
       min-height: 0;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     /* Side navigation */
@@ -44,9 +74,12 @@
       color: var(--text-primary);
       display: flex;
       flex-direction: column;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       flex-shrink: 0;
       z-index: 10;
+      border-radius: 12px;
+      margin-right: 20px;
+      overflow: hidden;
     }
 
     .nav-logo-placeholder {
@@ -54,19 +87,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255, 107, 139, 0.2);
       padding: 20px 0;
     }
 
     .logo-img {
       width: 60px;
       height: 60px;
-      background: rgba(100, 255, 218, 0.15);
+      background: rgba(255, 107, 139, 0.15);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--light-accent);
+      color: var(--light-pink);
       font-size: 1.8rem;
     }
 
@@ -76,9 +109,9 @@
       font-weight: 600;
       letter-spacing: 1px;
       text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255, 107, 139, 0.2);
       margin-bottom: 20px;
-      color: var(--light-accent);
+      color: var(--light-pink);
     }
 
     .nav-spacer {
@@ -102,15 +135,15 @@
       display: flex;
       align-items: center;
       cursor: pointer;
-      color: var(--light-accent);
+      color: var(--light-pink);
       font-weight: 600;
       border-radius: 8px;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
       user-select: none;
     }
 
     .nav-section-title:hover {
-      background: rgba(100, 255, 218, 0.1);
+      background: rgba(255, 107, 139, 0.1);
     }
 
     .nav-section-title i {
@@ -136,7 +169,7 @@
       display: flex;
       align-items: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
       color: var(--text-secondary);
       text-decoration: none;
       border-radius: 8px;
@@ -147,13 +180,13 @@
 
     .nav-link:hover {
       color: var(--text-primary);
-      background: rgba(100, 255, 218, 0.05);
+      background: rgba(255, 107, 139, 0.05);
     }
 
     .nav-link.active {
-      color: var(--light-accent);
+      color: var(--light-pink);
       font-weight: 500;
-      background: rgba(100, 255, 218, 0.1);
+      background: rgba(255, 107, 139, 0.1);
     }
 
     .nav-link.active::before {
@@ -164,7 +197,7 @@
       transform: translateY(-50%);
       width: 6px;
       height: 6px;
-      background: var(--light-accent);
+      background: var(--light-pink);
       border-radius: 50%;
     }
 
@@ -173,9 +206,12 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      background-color: var(--dark-blue);
+      background-color: var(--medium-blue);
       min-height: 0;
       position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     /* Header styles */
@@ -188,7 +224,7 @@
       align-items: center;
       flex-wrap: wrap;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255, 107, 139, 0.2);
       flex-shrink: 0;
       z-index: 5;
     }
@@ -201,7 +237,7 @@
     .store-name {
       font-size: 1.3rem;
       font-weight: 500;
-      color: var(--light-accent);
+      color: var(--light-pink);
       margin: 0;
     }
 
@@ -228,17 +264,17 @@
       text-decoration: none;
       color: var(--text-secondary);
       font-weight: 500;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
     }
 
     .dashboard-nav a:hover {
       color: var(--text-primary);
-      background: rgba(100, 255, 218, 0.05);
+      background: rgba(255, 107, 139, 0.05);
     }
 
     .dashboard-nav a.active {
-      color: var(--light-accent);
-      background: rgba(100, 255, 218, 0.1);
+      color: var(--light-pink);
+      background: rgba(255, 107, 139, 0.1);
     }
 
     .datetime {
@@ -263,21 +299,21 @@
     }
 
     .menu-button {
-      background: rgba(100, 255, 218, 0.1);
-      color: var(--light-accent);
+      background: rgba(255, 107, 139, 0.1);
+      color: var(--light-pink);
       padding: 8px 16px;
       border-radius: 6px;
-      border: 1px solid rgba(100, 255, 218, 0.2);
+      border: 1px solid rgba(255, 107, 139, 0.2);
       font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
     }
 
     .menu-button:hover {
-      background: rgba(100, 255, 218, 0.2);
+      background: rgba(255, 107, 139, 0.2);
     }
 
     .dropdown-content {
@@ -290,7 +326,8 @@
       border-radius: 6px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       z-index: 1000;
-      border: 1px solid rgba(255,255,255,0.05);
+      border: 1px solid rgba(255, 107, 139, 0.2);
+      overflow: hidden;
     }
 
     .dropdown-content a {
@@ -299,12 +336,13 @@
       text-decoration: none;
       font-size: 14px;
       color: var(--text-secondary);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255, 107, 139, 0.1);
+      transition: all 0.3s ease;
     }
 
     .dropdown-content a:hover {
       color: var(--text-primary);
-      background: rgba(100, 255, 218, 0.05);
+      background: rgba(255, 107, 139, 0.05);
     }
 
     .dropdown-content a:last-child {
@@ -330,6 +368,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     iframe {
@@ -337,8 +378,6 @@
       width: 100%;
       height: 100%;
       min-height: 500px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       background-color: #fff;
     }
 
@@ -349,11 +388,22 @@
       text-align: center;
       font-size: 13px;
       padding: 12px 20px;
-      border-top: 1px solid rgba(255,255,255,0.05);
+      border-top: 1px solid rgba(255, 107, 139, 0.2);
       flex-shrink: 0;
     }
 
     /* Responsive styles */
+    @media (max-width: 1200px) {
+      .app-container {
+        padding: 15px;
+      }
+      
+      .sidenav {
+        width: 240px;
+        margin-right: 15px;
+      }
+    }
+
     @media (max-width: 992px) {
       .sidenav {
         width: 80px;
@@ -382,17 +432,28 @@
         left: 50%;
         transform: translate(-50%, -50%);
       }
+      
+      header {
+        padding: 15px 20px;
+      }
+      
+      .header-actions {
+        gap: 15px;
+      }
     }
 
     @media (max-width: 768px) {
       .app-container {
         flex-direction: column;
+        padding: 10px;
       }
       
       .sidenav {
         width: 100%;
         flex-direction: row;
         height: auto;
+        margin-right: 0;
+        margin-bottom: 15px;
       }
       
       .nav-logo-placeholder, .outlet-code, .nav-spacer {
@@ -423,6 +484,8 @@
         z-index: 100;
         min-width: 200px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        border-radius: 8px;
+        overflow: hidden;
       }
 
       .nav-link {
@@ -449,6 +512,10 @@
       .datetime {
         align-items: flex-start;
       }
+      
+      main {
+        padding: 15px;
+      }
     }
 
     @media (max-width: 600px) {
@@ -466,10 +533,59 @@
         width: 100%;
         justify-content: center;
       }
+      
+      .header-actions {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      
+      .dashboard-nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .datetime {
+        width: 100%;
+        align-items: flex-start;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .app-container {
+        padding: 8px;
+      }
+      
+      .sidenav {
+        border-radius: 8px;
+      }
+      
+      .main-content {
+        border-radius: 8px;
+      }
+      
+      header {
+        padding: 12px;
+      }
+      
+      main {
+        padding: 12px;
+      }
+      
+      .store-name {
+        font-size: 1.1rem;
+      }
+      
+      .dashboard-nav a {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="background"></div>
+  <div class="background-pattern"></div>
 
   <div class="app-container">
     <!-- Side Navigation -->
@@ -652,7 +768,7 @@
         </div>
       </main>
 
-      <footer>Powered by ESH - Enterprise Sales Hub &copy; 2025</footer>
+      <footer>Powered by DSOG STORES - Enterprise Sales Hub &copy; 2025</footer>
     </div>
   </div>
 
