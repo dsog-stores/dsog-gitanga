@@ -36,7 +36,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="DSOG STORES">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#7B4B94">
+    <meta name="theme-color" content="#1E3A5F">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" as="style">
@@ -48,9 +48,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
     <style>
         :root {
-            --primary-purple: #7B4B94;
-            --deep-purple: #5A2D81;
-            --light-purple: #9D7BB5;
+            --navy-blue: #1E3A5F;
+            --deep-navy: #0F2A4A;
+            --light-navy: #2D4F7C;
             --accent-gold: #C9A96A;
             --light-gold: #E8D9B5;
             --charcoal: #2D3748;
@@ -68,12 +68,12 @@
             --bg-primary: var(--white);
             --bg-secondary: var(--off-white);
             --border-color: var(--light-gray);
-            --shadow-color: rgba(90, 45, 129, 0.15);
+            --shadow-color: rgba(30, 58, 95, 0.15);
             --card-bg: var(--white);
             
-            --shadow-sm: 0 2px 8px rgba(90, 45, 129, 0.1);
-            --shadow-md: 0 4px 12px rgba(90, 45, 129, 0.15);
-            --shadow-lg: 0 10px 25px rgba(90, 45, 129, 0.2);
+            --shadow-sm: 0 2px 8px rgba(30, 58, 95, 0.1);
+            --shadow-md: 0 4px 12px rgba(30, 58, 95, 0.15);
+            --shadow-lg: 0 10px 25px rgba(30, 58, 95, 0.2);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -99,7 +99,7 @@
 
         /* Colorful Header */
         header {
-            background-color: var(--primary-purple);
+            background-color: var(--navy-blue);
             box-shadow: 0 2px 20px var(--shadow-color);
             position: sticky;
             top: 0;
@@ -275,8 +275,8 @@
         
         .search-input:focus {
             outline: none;
-            border-color: var(--primary-purple);
-            box-shadow: 0 0 0 2px rgba(123, 75, 148, 0.2);
+            border-color: var(--navy-blue);
+            box-shadow: 0 0 0 2px rgba(30, 58, 95, 0.2);
         }
         
         .search-close {
@@ -309,36 +309,36 @@
         }
         
         .location-banner i {
-            color: var(--deep-purple);
+            color: var(--deep-navy);
             font-size: 1.1rem;
         }
         
         .location-text {
             font-size: 0.9rem;
             font-weight: 500;
-            color: var(--deep-purple);
+            color: var(--deep-navy);
         }
         
         .location-name {
             font-weight: 700;
-            color: var(--deep-purple);
+            color: var(--deep-navy);
         }
         
         .change-location-btn {
             background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(90, 45, 129, 0.2);
+            border: 1px solid rgba(15, 42, 74, 0.2);
             padding: 0.4rem 0.8rem;
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.75rem;
             font-weight: 600;
             transition: var(--transition);
-            color: var(--deep-purple);
+            color: var(--deep-navy);
         }
         
         .change-location-btn:hover {
             background: var(--white);
-            border-color: var(--deep-purple);
+            border-color: var(--deep-navy);
         }
         
         /* Improved Hero Section for Mobile */
@@ -405,7 +405,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(123, 75, 148, 0.7) 0%, rgba(90, 45, 129, 0.5) 100%);
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.7) 0%, rgba(15, 42, 74, 0.5) 100%);
             z-index: 2;
             display: flex;
             align-items: center;
@@ -471,7 +471,7 @@
         
         .cta-btn:hover {
             background: var(--white);
-            color: var(--primary-purple);
+            color: var(--navy-blue);
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
@@ -496,7 +496,7 @@
         
         .swiper-button-next, .swiper-button-prev {
             color: var(--white);
-            background: rgba(123, 75, 148, 0.5);
+            background: rgba(30, 58, 95, 0.5);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -504,7 +504,7 @@
         }
         
         .swiper-button-next:hover, .swiper-button-prev:hover {
-            background: rgba(123, 75, 148, 0.8);
+            background: rgba(30, 58, 95, 0.8);
         }
         
         /* Enhanced Bottom Navigation for Mobile */
@@ -554,14 +554,14 @@
             transform: translateX(-50%) scale(0);
             width: 40px;
             height: 40px;
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             border-radius: 50%;
             opacity: 0.1;
             transition: var(--transition);
         }
         
         .bottom-nav-item.active {
-            color: var(--primary-purple);
+            color: var(--navy-blue);
             transform: translateY(-2px);
         }
         
@@ -599,7 +599,7 @@
             top: -8px;
             left: 0;
             height: 3px;
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             border-radius: 2px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 20px;
@@ -622,13 +622,13 @@
             font-weight: 700;
             border: 2px solid var(--bg-primary);
             z-index: 3;
-            box-shadow: 0 2px 8px rgba(123, 75, 148, 0.3);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.3);
         }
         
         /* Hover effects for desktop */
         @media (min-width: 769px) {
             .bottom-nav-item:hover {
-                color: var(--primary-purple);
+                color: var(--navy-blue);
                 transform: translateY(-2px);
             }
             
@@ -726,7 +726,7 @@
             transform: translateX(-50%);
             width: 60px;
             height: 3px;
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             border-radius: 2px;
         }
         
@@ -775,7 +775,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(123, 75, 148, 0.8));
+            background: linear-gradient(transparent, rgba(30, 58, 95, 0.8));
             color: white;
             padding: 1.5rem;
         }
@@ -822,9 +822,9 @@
         }
         
         .category-btn.active, .category-btn:hover {
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
-            border-color: var(--primary-purple);
+            border-color: var(--navy-blue);
         }
         
         /* Optimized Product Grid for 100% zoom */
@@ -963,7 +963,7 @@
         
         .product-price {
             font-weight: 700;
-            color: var(--primary-purple);
+            color: var(--navy-blue);
             font-size: 1.1rem;
             margin-bottom: 0.6rem;
         }
@@ -992,7 +992,7 @@
         
         /* Colorful Add To Cart Button */
         .add-to-cart-btn {
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             border: none;
             padding: 0.6rem 1rem;
@@ -1021,7 +1021,7 @@
             position: fixed;
             top: 90px;
             right: 1.5rem;
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             border: none;
             width: 50px;
@@ -1107,7 +1107,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             position: sticky;
             top: 0;
@@ -1164,7 +1164,7 @@
             font-size: 2.5rem;
             margin-bottom: 1rem;
             opacity: 0.5;
-            color: var(--primary-purple);
+            color: var(--navy-blue);
         }
         
         .cart-item {
@@ -1210,7 +1210,7 @@
         
         .cart-item-price {
             font-weight: 700;
-            color: var(--primary-purple);
+            color: var(--navy-blue);
             margin-bottom: 0.3rem;
             font-size: 0.9rem;
         }
@@ -1287,7 +1287,7 @@
         }
         
         .checkout-btn {
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             border: none;
             padding: 0.8rem;
@@ -1360,7 +1360,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             position: sticky;
             top: 0;
@@ -1449,7 +1449,7 @@
         
         .order-item-price {
             font-weight: 700;
-            color: var(--primary-purple);
+            color: var(--navy-blue);
             margin-bottom: 0.2rem;
             font-size: 0.8rem;
         }
@@ -1491,8 +1491,8 @@
         
         .form-control:focus {
             outline: none;
-            border-color: var(--primary-purple);
-            box-shadow: 0 0 0 2px rgba(123, 75, 148, 0.1);
+            border-color: var(--navy-blue);
+            box-shadow: 0 0 0 2px rgba(30, 58, 95, 0.1);
         }
         
         select.form-control {
@@ -1518,7 +1518,7 @@
         .customer-info-title {
             font-weight: 700;
             margin-bottom: 0.8rem;
-            color: var(--primary-purple);
+            color: var(--navy-blue);
             font-size: 0.9rem;
         }
         
@@ -1534,7 +1534,7 @@
         }
         
         .submit-btn {
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             border: none;
             padding: 0.8rem 1.5rem;
@@ -1627,7 +1627,7 @@
         }
         
         .confirmation-header {
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: white;
             padding: 2rem 1.5rem 1.5rem;
             position: relative;
@@ -1647,7 +1647,7 @@
         
         .confirmation-icon i {
             font-size: 2rem;
-            color: var(--primary-purple);
+            color: var(--navy-blue);
         }
         
         .confirmation-title {
@@ -1731,7 +1731,7 @@
         }
         
         .btn-primary {
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
         }
         
@@ -1830,7 +1830,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             position: sticky;
             top: 0;
@@ -1887,7 +1887,7 @@
             font-size: 2.5rem;
             margin-bottom: 1rem;
             opacity: 0.5;
-            color: var(--primary-purple);
+            color: var(--navy-blue);
         }
         
         .wishlist-item {
@@ -1933,7 +1933,7 @@
         
         .wishlist-item-price {
             font-weight: 700;
-            color: var(--primary-purple);
+            color: var(--navy-blue);
             margin-bottom: 0.3rem;
             font-size: 0.9rem;
         }
@@ -1945,7 +1945,7 @@
         }
         
         .wishlist-add-to-cart {
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             border: none;
             padding: 0.5rem 1rem;
@@ -1995,7 +1995,7 @@
         
         /* Colorful Footer */
         .main-footer {
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             padding: 3rem 1.5rem 1.5rem;
             margin-top: 3rem;
@@ -2091,7 +2091,7 @@
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             border: none;
             width: 40px;
@@ -2152,12 +2152,12 @@
         .product-view-price {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary-purple);
+            color: var(--navy-blue);
         }
         
         .product-view-category {
             display: inline-block;
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             padding: 0.4rem 1rem;
             border-radius: 20px;
@@ -2188,7 +2188,7 @@
         }
         
         .product-view-meta-item i {
-            color: var(--primary-purple);
+            color: var(--navy-blue);
         }
         
         .product-view-actions {
@@ -2198,7 +2198,7 @@
         }
         
         .product-view-add-to-cart {
-            background: var(--primary-purple);
+            background: var(--navy-blue);
             color: var(--white);
             border: none;
             padding: 1rem 2rem;
@@ -2295,7 +2295,7 @@
                 right: -100%;
                 width: 280px;
                 height: 100vh;
-                background: var(--primary-purple);
+                background: var(--navy-blue);
                 flex-direction: column;
                 padding: 5rem 1.5rem 2rem;
                 box-shadow: -5px 0 25px var(--shadow-color);
@@ -2518,7 +2518,7 @@
     <header>
         <div class="main-header">
             <div class="logo-container">
-                <img src="https://i.postimg.cc/BvMMM93c/Untitled-design-5-removebg-preview.png" alt="DSOG STORES" class="logo">
+                <img src="https://i.postimg.cc/SxxVhVXB/Untitled-design-5.webp" alt="DSOG STORES" class="logo">
             </div>
             
             <!-- Search Bar -->
@@ -2649,7 +2649,7 @@
         <div class="product-grid" id="productListingsContainer">
             <!-- Products will be loaded dynamically -->
             <div class="product-card" style="text-align: center; padding: 2rem; grid-column: 1 / -1;">
-                <div class="loading" style="margin: 0 auto; border-top-color: var(--primary-purple); width: 30px; height: 30px;"></div>
+                <div class="loading" style="margin: 0 auto; border-top-color: var(--navy-blue); width: 30px; height: 30px;"></div>
                 <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--medium-gray);">Loading luxury products...</p>
             </div>
         </div>
@@ -3153,7 +3153,7 @@
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
                         ${Object.entries(franchisees).map(([key, franchise]) => `
                             <button onclick="selectFranchisee('${key}'); this.closest('div').parentElement.remove(); showNotification('Store changed to ${franchise.name}')" 
-                                    style="padding: 1rem; border: 2px solid var(--border-color); background: ${currentFranchisee && currentFranchisee.name === franchise.name ? 'var(--primary-purple)' : 'var(--white)'}; color: ${currentFranchisee && currentFranchisee.name === franchise.name ? 'var(--white)' : 'var(--text-primary)'}; border-radius: 8px; cursor: pointer; transition: var(--transition);">
+                                    style="padding: 1rem; border: 2px solid var(--border-color); background: ${currentFranchisee && currentFranchisee.name === franchise.name ? 'var(--navy-blue)' : 'var(--white)'}; color: ${currentFranchisee && currentFranchisee.name === franchise.name ? 'var(--white)' : 'var(--text-primary)'}; border-radius: 8px; cursor: pointer; transition: var(--transition);">
                                 <div style="font-weight: 600;">${franchise.name}</div>
                                 <div style="font-size: 0.8rem; opacity: 0.8;">${franchise.location}</div>
                             </button>
@@ -4367,7 +4367,7 @@
                     position: fixed;
                     top: 90px;
                     right: 20px;
-                    background: var(--primary-purple);
+                    background: var(--navy-blue);
                     color: white;
                     padding: 0.8rem 1.2rem;
                     border-radius: 20px;
