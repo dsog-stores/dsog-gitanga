@@ -501,7 +501,7 @@
             background: rgba(0,0,0,0.6);
         }
         
-        /* Enhanced Bottom Navigation */
+        /* Enhanced Bottom Navigation for Mobile */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -2900,7 +2900,7 @@
                 <h4>Connect</h4>
                 <ul class="footer-links">
                     <li style="margin-top: 1rem; opacity: 0.8; font-size: 0.85rem;">Email: care.dsogstores@gmail.com</li>
-                    <li style="opacity: 0.8; font-size: 0.85rem;">WhatsApp: +254784599322</li>
+                    <li style="opacity: 0.8; font-size: 0.85rem;">WhatsApp: +254733737983</li>
                 </ul>
             </div>
         </div>
@@ -2912,30 +2912,30 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
     <script>
-        // Franchise Management System with Automatic Location Detection
+        // Enhanced Franchise Management System with Dynamic Location Detection
         const franchisees = {
             "nairobi": { 
                 name: "DSOG Nairobi", 
-                whatsapp: "254784599322",
+                whatsapp: "254733737983",
                 manager: "DSOG",
                 location: "Nairobi"
             },
             "mombasa": { 
                 name: "DSOG Mombasa", 
-                whatsapp: "254722222222",
-                manager: "Sarah Achieng",
+                whatsapp: "254733737983",
+                manager: "DSOG",
                 location: "Mombasa Island"
             },
             "kisumu": { 
                 name: "DSOG Kisumu", 
-                whatsapp: "254733333333",
-                manager: "Mike Otieno",
+                whatsapp: "254733737983",
+                manager: "DSOG",
                 location: "Kisumu Central"
             }
         };
 
-        // Current selected franchisee
-        let currentFranchisee = franchisees.nairobi;
+        // Current selected franchisee - will be dynamically set
+        let currentFranchisee = null;
 
         // Wishlist system
         let wishlistItems = JSON.parse(localStorage.getItem('dsogstores_wishlist')) || [];
@@ -2999,28 +2999,18 @@
                 const response = await fetch('https://ipapi.co/json/');
                 const locationData = await response.json();
                 
-                const city = locationData.city.toLowerCase();
+                const city = locationData.city;
                 const country = locationData.country_name;
                 
                 console.log('Detected location via IP:', city, country);
                 
-                // Map detected city to franchise
-                if (city.includes('nairobi')) {
-                    selectFranchisee('nairobi');
-                } else if (city.includes('mombasa')) {
-                    selectFranchisee('mombasa');
-                } else if (city.includes('kisumu')) {
-                    selectFranchisee('kisumu');
-                } else {
-                    // Default to Nairobi if location doesn't match
-                    selectFranchisee('nairobi');
-                    showNotification(`We've set your store to Nairobi. You can change it above.`);
-                }
+                // Handle detected location
+                handleDetectedLocation(city, country);
                 
             } catch (error) {
                 console.log('IP location detection failed:', error);
-                // Final fallback to default
-                selectFranchisee('nairobi');
+                // Final fallback to default with generic location
+                handleUnknownLocation();
             }
         }
 
@@ -3034,22 +3024,74 @@
                 const data = await response.json();
                 
                 const city = data.address.city || data.address.town || data.address.county || '';
-                const cityLower = city.toLowerCase();
+                const country = data.address.country;
                 
-                if (cityLower.includes('nairobi')) {
-                    selectFranchisee('nairobi');
-                } else if (cityLower.includes('mombasa')) {
-                    selectFranchisee('mombasa');
-                } else if (cityLower.includes('kisumu')) {
-                    selectFranchisee('kisumu');
-                } else {
-                    selectFranchisee('nairobi');
-                    showNotification(`We've set your store to Nairobi. You can change it above.`);
-                }
+                console.log('Detected location via coordinates:', city, country);
+                
+                // Handle detected location
+                handleDetectedLocation(city, country);
+                
             } catch (error) {
                 console.log('Coordinate detection failed:', error);
-                selectFranchisee('nairobi');
+                // Fallback to IP detection
+                await detectUserLocation();
             }
+        }
+
+        // Handle detected location - UPDATED TO SHOW ACTUAL LOCATION
+        function handleDetectedLocation(city, country) {
+            const cityLower = city ? city.toLowerCase() : '';
+            
+            // Check if it's a known franchise location
+            if (cityLower.includes('nairobi')) {
+                selectFranchisee('nairobi');
+            } else if (cityLower.includes('mombasa')) {
+                selectFranchisee('mombasa');
+            } else if (cityLower.includes('kisumu')) {
+                selectFranchisee('kisumu');
+            } else {
+                // Handle unknown locations - show actual detected location
+                handleUnknownLocation(city, country);
+            }
+        }
+
+        // Handle unknown locations - UPDATED TO SHOW ACTUAL LOCATION
+        function handleUnknownLocation(city = null, country = null) {
+            if (city && country) {
+                // Show actual detected location
+                currentFranchisee = {
+                    name: `DSOG ${city}`,
+                    whatsapp: "254733737983",
+                    manager: "DSOG Support",
+                    location: `${city}, ${country}`
+                };
+                
+                // Update UI with actual location
+                document.getElementById('currentLocation').textContent = `DSOG ${city}`;
+                showNotification(`Welcome from ${city}! Serving you via our main store.`);
+                
+                // Save the detected location
+                localStorage.setItem('detectedLocation', JSON.stringify({
+                    city: city,
+                    country: country,
+                    timestamp: new Date().toISOString()
+                }));
+                
+            } else {
+                // No location detected - use default
+                currentFranchisee = {
+                    name: "DSOG Online Store",
+                    whatsapp: "254733737983",
+                    manager: "DSOG Support",
+                    location: "Online Service"
+                };
+                
+                document.getElementById('currentLocation').textContent = "DSOG Online Store";
+                showNotification(`Welcome! Serving you via our online store.`);
+            }
+            
+            // Update WhatsApp buttons
+            updateWhatsAppButtons();
         }
 
         // Select franchisee function
@@ -3084,13 +3126,20 @@
                 z-index: 2000;
             `;
             
+            // Get detected location for display
+            const detectedLocation = JSON.parse(localStorage.getItem('detectedLocation') || '{}');
+            const detectedCity = detectedLocation.city || 'your location';
+            
             modal.innerHTML = `
                 <div style="background: var(--bg-primary); padding: 2rem; border-radius: 8px; max-width: 400px; width: 90%;">
                     <h3 style="margin-bottom: 1.5rem; font-family: 'Playfair Display', serif;">Select Your Store</h3>
+                    <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        Detected location: <strong>${detectedCity}</strong>
+                    </p>
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
                         ${Object.entries(franchisees).map(([key, franchise]) => `
                             <button onclick="selectFranchisee('${key}'); this.closest('div').parentElement.remove(); showNotification('Store changed to ${franchise.name}')" 
-                                    style="padding: 1rem; border: 2px solid var(--border-color); background: ${currentFranchisee.name === franchise.name ? 'var(--gold)' : 'var(--white)'}; color: ${currentFranchisee.name === franchise.name ? 'var(--white)' : 'var(--text-primary)'}; border-radius: 8px; cursor: pointer; transition: var(--transition);">
+                                    style="padding: 1rem; border: 2px solid var(--border-color); background: ${currentFranchisee && currentFranchisee.name === franchise.name ? 'var(--gold)' : 'var(--white)'}; color: ${currentFranchisee && currentFranchisee.name === franchise.name ? 'var(--white)' : 'var(--text-primary)'}; border-radius: 8px; cursor: pointer; transition: var(--transition);">
                                 <div style="font-weight: 600;">${franchise.name}</div>
                                 <div style="font-size: 0.8rem; opacity: 0.8;">${franchise.location}</div>
                             </button>
@@ -3132,6 +3181,11 @@
 
         // Order via WhatsApp with franchise tracking
         function orderViaWhatsApp(product) {
+            if (!currentFranchisee) {
+                showNotification('Please wait while we detect your location...');
+                return;
+            }
+            
             const message = `Hello ${currentFranchisee.manager}! I'd like to order from ${currentFranchisee.name}:\n\n` +
                            `Product: ${product.name}\n` +
                            `Price: KSh ${product.basePrice}\n` +
@@ -4287,7 +4341,7 @@
                 }
             }
 
-// ==================== END FIREBASE INTEGRATION ====================
+            // ==================== END FIREBASE INTEGRATION ====================
 
             // Load products on page load
             loadProductsWithCache();
@@ -4329,111 +4383,18 @@
                     }, 300);
                 }, 3000);
             }
-            // Enhanced product loading with Firebase cache
-            async function loadProductsWithCache() {
-                console.log('Loading products with Firebase cache...');
-                
-                try {
-                    // FIRST: Try Google Sheets (your current system)
-                    const response = await fetch(`${scriptUrl}?action=getProducts`);
-                    
-                    if (!response.ok) throw new Error('Sheets response not ok');
-                    
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        const products = result.data;
-                        console.log(`Loaded ${products.length} products from Google Sheets`);
-                        displayProducts(products);
-                        
-                        // SECONDARY: Cache products to Firebase for real-time features
-                        cacheProductsToFirebase(products);
-                        
-                        return products;
-                    } else {
-                        throw new Error(result.message);
-                    }
-                    
-                } catch (error) {
-                    console.error('Google Sheets load failed:', error);
-                    
-                    // FALLBACK: Try Firebase cache
-                    try {
-                        console.log('Trying Firebase cache...');
-                        const cachedProducts = await loadProductsFromFirebaseCache();
-                        if (cachedProducts.length > 0) {
-                            console.log(`Loaded ${cachedProducts.length} products from Firebase cache`);
-                            displayProducts(cachedProducts);
-                            showNotification('Products loaded from cache');
-                            return cachedProducts;
-                        } else {
-                            throw new Error('No cached products found');
-                        }
-                    } catch (firebaseError) {
-                        console.error('Firebase cache also failed:', firebaseError);
-                    }
-                    
-                    // FINAL FALLBACK: Use sample products
-                    console.log('Using sample products as final fallback');
-                    loadSampleProducts();
-                }
-            }
-            
-            // Cache products to Firebase (non-blocking)
-            async function cacheProductsToFirebase(products) {
-                try {
-                    console.log('Caching products to Firebase...');
-                    const batch = db.batch();
-                    
-                    products.forEach(product => {
-                        const productRef = db.collection('productsCache').doc(product.id);
-                        batch.set(productRef, {
-                            ...product,
-                            lastSynced: firebase.firestore.FieldValue.serverTimestamp(),
-                            source: 'google_sheets',
-                            isActive: true
-                        }, { merge: true });
-                    });
-                    
-                    await batch.commit();
-                    console.log(`Successfully cached ${products.length} products to Firebase`);
-                } catch (error) {
-                    console.log('Firebase cache failed (non-critical):', error);
-                }
-            }
-            
-            // Load from Firebase cache
-            async function loadProductsFromFirebaseCache() {
-                try {
-                    const snapshot = await db.collection('productsCache')
-                        .where('isActive', '==', true)
-                        .limit(50)
-                        .get();
-                    
-                    const products = snapshot.docs.map(doc => {
-                        const data = doc.data();
-                        // Ensure all required fields are present
-                        return {
-                            id: data.id,
-                            name: data.name,
-                            category: data.category,
-                            basePrice: data.basePrice,
-                            quantity: data.quantity,
-                            description: data.description,
-                            image: data.image,
-                            availableColors: data.availableColors,
-                            availableMaterials: data.availableMaterials,
-                            availableSizes: data.availableSizes,
-                            collection: data.collection
-                        };
-                    });
-                    
-                    return products;
-                } catch (error) {
-                    console.error('Error loading from Firebase cache:', error);
-                    throw error;
-                }
-            }
+
+            // Make functions globally available
+            window.selectFranchisee = selectFranchisee;
+            window.showLocationSelector = showLocationSelector;
+            window.orderViaWhatsApp = orderViaWhatsApp;
+            window.addToWishlist = addToWishlist;
+            window.removeFromWishlist = removeFromWishlist;
+            window.isInWishlist = isInWishlist;
+            window.openWishlistModal = openWishlistModal;
+            window.addToCartFromWishlist = addToCartFromWishlist;
+            window.addToCart = addToCart;
+            window.openProductView = openProductView;
         });
     </script>
 </body>
