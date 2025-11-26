@@ -1,7 +1,7 @@
 const CACHE_NAME = 'dsog-stores-v1.0';
 const urlsToCache = [
   '/',
-  '/index.html',
+  '/customer-app.html',
   // Add other critical pages if needed
 ];
 
